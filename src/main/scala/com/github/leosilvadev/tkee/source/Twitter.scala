@@ -5,11 +5,11 @@ import com.danielasfregola.twitter4s.entities.streaming.StreamingMessage
 
 object Twitter {
 
-  def listen(topic: String, source: TwitterSource): Unit =
-    source.client.sampleStatuses()(produceTo(topic))
+  def listen(topic: String, source: TwitterSource, onTweet: Tweet => Unit): Unit =
+    source.client.sampleStatuses()(handle(onTweet))
 
-  private def produceTo(topic: String): PartialFunction[StreamingMessage, Unit] = {
-    case tweet: Tweet => println(tweet.text)
+  private def handle(onTweet: Tweet => Unit): PartialFunction[StreamingMessage, Unit] = {
+    case tweet: Tweet => onTweet(tweet)
   }
 
 }
