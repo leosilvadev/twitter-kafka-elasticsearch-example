@@ -23,6 +23,6 @@ object Application extends App {
   Twitter.listen(
     topic,
     TwitterSource(consumerToken, accessToken),
-    TweetPublisher.publish(publisher)("my_key", _)
+    TweetPublisher.publish(publisher)
   )
 }

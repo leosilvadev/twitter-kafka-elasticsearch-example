@@ -19,8 +19,8 @@ object TweetPublisher {
     new TweetPublisher(new KafkaProducer[String, String](props), topic)
   }
 
-  def publish(publisher: TweetPublisher)(key: String, status: Tweet): Try[Unit] = Try {
-    val record = new ProducerRecord[String, String](publisher.topic, "key", "value")
+  def publish(publisher: TweetPublisher)(tweet: Tweet): Try[Unit] = Try {
+    val record = new ProducerRecord[String, String](publisher.topic, tweet.source, tweet.text)
     publisher.producer.send(record)
     publisher.producer.flush()
   }
